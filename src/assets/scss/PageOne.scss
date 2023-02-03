@@ -1,0 +1,215 @@
+@import "../scss/main.scss";
+
+
+.firstContentPage {
+    width: 100%;
+    height: 3000vh;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    overflow: hidden;
+    .backgroundVideo {
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        } 
+    }
+    .pageOneInnerContent {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        perspective: 500px;
+        width: 100%;
+        height: 100vh;
+        // .firstWording {
+            //     color: white;
+            //     font-size: 40px;
+            //     font-weight: bold;
+            //     position: absolute;
+            //     top: 50%;
+            //     left: 50%;
+            //     transform: translate3d(-70%, -200%, 350px);
+            // }
+        // .secondWording {
+            //     color: white;
+            //     font-size: 40px;
+            //     font-weight: bold;
+            //     position: absolute;
+            //     top: 50%;
+            //     left: 50%;
+            //     transform: translate3d(-20%, -100%, 350px);
+            // }
+        // .thirdWording {
+            //     color: white;
+            //     font-size: 40px;
+            //     font-weight: bold;
+            //     position: absolute;
+            //     top: 50%;
+            //     left: 50%;
+            //     transform: translate3d(-70%, 0%, 350px);
+            // }
+        // .fourthWording {
+            //     color: white;
+            //     font-size: 40px;
+            //     font-weight: bold;
+            //     position: absolute;
+            //     top: 50%;
+            //     left: 50%;
+            //     transform: translate3d(-10%, 100%, 350px);
+            // }
+        .firstWording {
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate3d(-50%, -50%, 470px);
+            // transition: all 0.2s;
+        }
+        .secondWording {
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate3d(300%, -100%, 350px);
+            // transition: all 0.2s;
+        }
+        .thirdWording {
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate3d(-400%, 0%, 350px);
+            // transition: all 0.2s;
+        }
+        .fourthWording {
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate3d(200%, 100%, 350px);
+            // transition: all 0.2s;
+        }
+        .bottomArrow {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                height: 30px;
+                filter: invert(100%);
+            }
+        }
+        .centerLisnLogo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -40%);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                height: 70px;
+            }
+            opacity: 0;
+        }
+        
+        .secondContents {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -40%);
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            .firstText,
+            .secondText {
+                margin-bottom: 30px;
+                opacity: 0;
+            }
+            .firstBtn, .secondBtn {
+                width: 540px;
+                height: 70px;
+                border-radius: 35px;
+                padding: 0 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                opacity: 0;
+                cursor: pointer;
+            }
+            .firstBtn {
+                background-color: rgba($color: #000000, $alpha: 0.3);
+                border: 2px solid #fff;
+                margin: 30px 0 20px;
+                img {
+                    height: 30px;
+                    filter: invert(100%);
+                }
+            }
+            .secondBtn {
+                margin: 20px 0;
+                color: black;
+                background-color: #fff;
+                border: 2px solid #fff;
+                img {
+                    height: 30px;
+                    filter: brightness(0);
+                }
+                &:hover {
+                    background-color: rgba($color: #000000, $alpha: 0.3);
+                    border: 2px solid #fff;
+                    color: #fff;
+                    img {
+                        filter: invert(100%);
+                        transform: filter;
+                        transition: transform 0.2s;
+                    }
+                    transform: background-color, border, color;
+                    transition: background-color 0.2s, border 0.2s, color 0.2s;
+                }
+            }
+        }
+    }
+}
+
+.secondContentPage {
+    .firstBackgroundImage {
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        top: 3000vh;
+        left: 0;
+        background-image: url("/src/assets/image/architecture_1920.jpg");
+        background-size: cover;
+        background-position: center center;
+    }
+}
