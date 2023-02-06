@@ -76,16 +76,36 @@ export default {
     })
     
     const onScroll = (() => {
-      if(timer.value !== null) {
-        clearTimeout(timer.value);        
+      if(setList.value.eventRoading === true){
+        // document.removeEventListener('wheel', onMouseWheel);
+        // event.stopImmediatePropagation();
+        return;
       }
-      timer.value = setTimeout(function() {
+      // event.stopImmediatePropagation();
+
+      // event chceck
+      // console.log(event)
+
+      // console.log(setList.value.activePageIndex + 1)
+
+      setList.value.eventRoading = true;
+      setTimeout(() => {
+        setList.value.eventRoading = false;
+        // console.log("setList.value.eventRoading : "+setList.value.eventRoading)
+      }, 2000);
+      // console.log("setList.value.eventRoading : "+setList.value.eventRoading)
+
+      // if(timer.value !== null) {
+      //   clearTimeout(timer.value);        
+      // }
+      // timer.value = setTimeout(function() {
         
         // vh 단위 퍼센테이지 구하기
         heightPercentage.value = window.scrollY / window.outerHeight * 100
         console.log("window.scrollTop : "  + heightPercentage.value);
         // scroll direction(방향) 확인
         const scrollDirection = heightPercentage.value > LastHeightPercentage.value ? "Down" : "Up";
+        console.log("Last scrollTop : "+LastHeightPercentage.value);
         console.log("scrollDirection : "+scrollDirection);
         // 현재의 스크롤 값을 저장
         LastHeightPercentage.value = heightPercentage.value;
@@ -104,7 +124,7 @@ export default {
             console.log(setList.value.activePageIndex);
           }
         }else{
-          if(setList.value.activePageIndex < 0){
+          if(setList.value.activePageIndex <= 0){
             setList.value.activePageIndex = 0
             console.log(setList.value.activePageIndex);
           }else{
@@ -113,56 +133,56 @@ export default {
           }
         }
 
-      }, 150);
+      // }, 150);
     });
 
-    const firstPageTopMove = computed(() => {
+    const pageTopMove = computed(() => {
       if(setList.value.activePageIndex < 0){
         return "0";
       }else{
         // console.log((-100 * setList.value.activePageIndex) + "vh")
-        return (-100 * setList.value.activePageIndex) + "vh";
+        return setList.value.activePageIndex == setList.value.emptyArr.length - 1 ? "calc(-300vh - 64px)" : (-100 * setList.value.activePageIndex) + "vh";
       }
     });
 
-    const secondPageTopMove = computed(() => {
-      if(setList.value.activePageIndex >= 0){
-        // console.log(100 + (-100 * setList.value.activePageIndex) + "vh")
-        return 100 + (-100 * setList.value.activePageIndex) + "vh";
-      }else{
-        return "100vh";
-      }
-    });
+    // const secondPageTopMove = computed(() => {
+    //   if(setList.value.activePageIndex >= 0){
+    //     // console.log(100 + (-100 * setList.value.activePageIndex) + "vh")
+    //     return 100 + (-100 * setList.value.activePageIndex) + "vh";
+    //   }else{
+    //     return "100vh";
+    //   }
+    // });
 
-    const thirdPageTopMove = computed(() => {
-      if(setList.value.activePageIndex >= 0){
-        // console.log(200 + (-100 * setList.value.activePageIndex) + "vh")
-        return 200 + (-100 * setList.value.activePageIndex) + "vh";
-      }else{
-        return "200vh";
-      }
-    });
+    // const thirdPageTopMove = computed(() => {
+    //   if(setList.value.activePageIndex >= 0){
+    //     // console.log(200 + (-100 * setList.value.activePageIndex) + "vh")
+    //     return 200 + (-100 * setList.value.activePageIndex) + "vh";
+    //   }else{
+    //     return "200vh";
+    //   }
+    // });
 
-    const fourthPageTopMove = computed(() => {
-      if(setList.value.activePageIndex >= 0){
-        console.log(300 + (-100 * setList.value.activePageIndex) + "vh")
-        if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
-          return "calc(0vh - 64px)"
-        }else{
-          return 300 + (-100 * setList.value.activePageIndex) + "vh";
-        }
-      }else{
-        return "300vh";
-      }
-    });
+    // const fourthPageTopMove = computed(() => {
+    //   if(setList.value.activePageIndex >= 0){
+    //     console.log(300 + (-100 * setList.value.activePageIndex) + "vh")
+    //     if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
+    //       return "calc(0vh - 64px)"
+    //     }else{
+    //       return 300 + (-100 * setList.value.activePageIndex) + "vh";
+    //     }
+    //   }else{
+    //     return "300vh";
+    //   }
+    // });
 
-    const footerTopMove = computed(() => {
-      if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
-        return "calc(100vh - 64px)"
-      }else{
-        return "100vh";
-      }
-    });
+    // const footerTopMove = computed(() => {
+    //   if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
+    //     return "calc(100vh - 64px)"
+    //   }else{
+    //     return "100vh";
+    //   }
+    // });
 
     return {
       footerArea,
@@ -171,11 +191,11 @@ export default {
       heightPercentage,
       LastHeightPercentage,
       setList,
-      firstPageTopMove,
-      secondPageTopMove,
-      thirdPageTopMove,
-      fourthPageTopMove,
-      footerTopMove,
+      pageTopMove,
+      // secondPageTopMove,
+      // thirdPageTopMove,
+      // fourthPageTopMove,
+      // footerTopMove,
     }
   },
 } 
@@ -187,26 +207,32 @@ export default {
     height: 5000vh;
   }
   .page {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, v-bind('pageTopMove')); //translate(-50%, (0, -100vh, -200vh, ...))
+    transition: transform 0.3s ease-in;
+    width: 100%;
     .index-page-01 {
       z-index: 10;
       width: 100%;
       height: 100vh;
-      position: fixed;
-      top: v-bind('firstPageTopMove');
-      left: 0;
+      position: relative;
+      // top: v-bind('firstPageTopMove');
+      // left: 0;
       overflow: hidden;
-      transition: top 0.3s;
+      // transition: top 0.3s;
     }
     
     .index-page-02 { 
       z-index: 9;
       width: 100%;
       height: 100vh;
-      position: fixed;
-      top: v-bind('secondPageTopMove');
-      left: 0;
+      position: relative;
+      // top: v-bind('secondPageTopMove');
+      // left: 0;
       overflow: hidden;
-      transition: top 0.3s;
+      // transition: top 0.3s;
       background-color: red;
     }
     
@@ -214,11 +240,11 @@ export default {
       z-index: 8;
       width: 100%;
       height: 100vh;
-      position: fixed;
-      top: v-bind('thirdPageTopMove');
-      left: 0;
+      position: relative;
+      // top: v-bind('thirdPageTopMove');
+      // left: 0;
       overflow: hidden;
-      transition: top 0.3s;
+      // transition: top 0.3s;
       background-color: orange;
     }
     
@@ -226,21 +252,21 @@ export default {
       z-index: 7;
       width: 100%;
       height: 100vh;
-      position: fixed;
-      top: v-bind('fourthPageTopMove');
-      left: 0;
+      position: relative;
+      // top: v-bind('fourthPageTopMove');
+      // left: 0;
       overflow: hidden;
-      transition: top 0.3s;
+      // transition: top 0.3s;
       background-color: yellow;
     }
   }
   
   .footerArea {
-    position: fixed;
+    position: relative;
     // top: calc(100% - 64px);
     transition: top 0.3s;
-    top: v-bind('footerTopMove');
-    left: 0;
+    // top: v-bind('footerTopMove');
+    // left: 0;
     width: 100%;
     height: 64px;
     display: flex;

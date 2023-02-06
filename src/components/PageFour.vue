@@ -78,13 +78,13 @@ export default {
 
 <style lang="scss" scoped>
 .fourthContentPage::v-deep {
-    width: 100%;
-    height: 3000vh;
-    position: absolute;
-    top: 100vh;
-    left: 0;
-    overflow: hidden;
-    background-color: yellow;
+    // width: 100%;
+    // height: 3000vh;
+    // position: absolute;
+    // top: 100vh;
+    // left: 0;
+    // overflow: hidden;
+    // background-color: yellow;
     .pageOneInnerContent {
         position: absolute;
         top: 0;
@@ -92,20 +92,20 @@ export default {
         transform: translateX(-50%);
         /* perspective: 500px; */
         width: 100%;
+        height: calc(100vh - 64px);
         height: 100vh;
-        padding-top: 64px;
+        padding-top: 128px;
         .firstWording {
             position: relative;
-            top: calc(50% + 0px);
-            left: 50%;
-            transform: translate(-50%, -50%);
+            // top: 50%;
+            // left: 50%;
+            // transform: translate(-50%, -50%);
             width: 100%;
-            height: calc(100vh - 120px);
+            height: calc(100vh - 192px);
             background-color: #fff;
             display: flex;
             flex-wrap: wrap;
             overflow-y: scroll;
-            padding: 60px 0;
             .contBox {
                 width: calc(100% / 3 - 20px); height: 180px;
                 margin: 0 10px 20px;

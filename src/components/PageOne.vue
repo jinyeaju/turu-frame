@@ -63,12 +63,12 @@ export default {
 // @import "../assets/scss/PageOne.scss";
 
 .firstContentPage {
-    width: 100%;
-    height: 100vh;
-    position: absolute;
-    top: 0px;
-    left: 0;
-    overflow: hidden;
+    // width: 100%;
+    // height: 100vh;
+    // position: absolute;
+    // top: 0px;
+    // left: 0;
+    // overflow: hidden;
     // padding-top: 64px;
     .backgroundVideo {
         width: 100%;
@@ -77,7 +77,7 @@ export default {
         // position: fixed;
         // top: 0;
         video {
-            padding-top: 64px;
+            // padding-top: 64px;
             // position: absolute;
             // top: 0;
             // left: 0;

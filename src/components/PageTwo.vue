@@ -67,13 +67,13 @@ export default {
 // @import "../assets/scss/PageOne.scss";
 
 .secondContentPage {
-    width: 100%;
-    height: 3000vh;
-    position: absolute;
-    top: 100vh;
-    left: 0;
-    overflow: hidden;
-    background-color: red;
+    // width: 100%;
+    // height: 3000vh;
+    // position: absolute;
+    // top: 100vh;
+    // left: 0;
+    // overflow: hidden;
+    // background-color: red;
     .pageOneInnerContent {
         position: absolute;
         top: 0;
