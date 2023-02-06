@@ -44,7 +44,7 @@ export default {
     const footerArea = ref(null)
     const mainPage = ref(null)
     const heightPercentage = ref(null)
-    const LastHeightPercentage = ref(null)
+    const LastScrollY = ref(null)
     const timer = ref(null)
     const setList = ref(
       {
@@ -92,7 +92,7 @@ export default {
       setTimeout(() => {
         setList.value.eventRoading = false;
         // console.log("setList.value.eventRoading : "+setList.value.eventRoading)
-      }, 2000);
+      }, 400);
       // console.log("setList.value.eventRoading : "+setList.value.eventRoading)
 
       // if(timer.value !== null) {
@@ -103,35 +103,44 @@ export default {
         // vh 단위 퍼센테이지 구하기
         heightPercentage.value = window.scrollY / window.outerHeight * 100
         console.log("window.scrollTop : "  + heightPercentage.value);
+        console.log("window.scrollY : "  + window.scrollY);
+        console.log("Last scrollY : "+LastScrollY.value);
         // scroll direction(방향) 확인
-        const scrollDirection = heightPercentage.value > LastHeightPercentage.value ? "Down" : "Up";
-        console.log("Last scrollTop : "+LastHeightPercentage.value);
+        const scrollDirection = window.scrollY > LastScrollY.value 
+        ? "Down" 
+        : window.scrollY < LastScrollY.value 
+        ? "Up" 
+        : "Scroll Error";
         console.log("scrollDirection : "+scrollDirection);
         // 현재의 스크롤 값을 저장
-        LastHeightPercentage.value = heightPercentage.value;
-        if(scrollDirection === "Down"){
-          if(setList.value.activePageIndex >= setList.value.emptyArr.length - 1){
-            // console.log(setList.value.emptyArr.length);
-            // console.log(setList.value.activePageIndex);
-            if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
-              setList.value.activePageIndex = setList.value.emptyArr.length - 1
-              // setList.value.activePageIndex = setList.value.emptyArr.length - 1
-              // console.log(setList.value.emptyArr.length);
-              // console.log(setList.value.activePageIndex);
-            }
-          }else{
-            setList.value.activePageIndex++;
-            console.log(setList.value.activePageIndex);
-          }
-        }else{
-          if(setList.value.activePageIndex <= 0){
-            setList.value.activePageIndex = 0
-            console.log(setList.value.activePageIndex);
-          }else{
-            setList.value.activePageIndex--;
-            console.log(setList.value.activePageIndex);
-          }
-        }
+        LastScrollY.value = window.scrollY;
+
+
+        // if(scrollDirection === "Down"){
+        //   if(setList.value.activePageIndex >= setList.value.emptyArr.length - 1){
+        //     // console.log(setList.value.emptyArr.length);
+        //     // console.log(setList.value.activePageIndex);
+        //     // if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
+        //       setList.value.activePageIndex = setList.value.emptyArr.length - 1
+        //       // setList.value.activePageIndex = setList.value.emptyArr.length - 1
+        //       // console.log(setList.value.emptyArr.length);
+        //       // console.log(setList.value.activePageIndex);
+        //     // }
+        //   }else{
+        //     setList.value.activePageIndex++;
+        //     console.log(setList.value.activePageIndex);
+        //   }
+        // }else if(scrollDirection === "Up"){
+        //   if(setList.value.activePageIndex <= 0){
+        //     setList.value.activePageIndex = 0
+        //     console.log(setList.value.activePageIndex);
+        //   }else{
+        //     setList.value.activePageIndex--;
+        //     console.log(setList.value.activePageIndex);
+        //   }
+        // }else{
+        //   console.log("scroll error")
+        // }
 
       // }, 150);
     });
@@ -189,7 +198,7 @@ export default {
       mainPage,
       timer,
       heightPercentage,
-      LastHeightPercentage,
+      LastScrollY,
       setList,
       pageTopMove,
       // secondPageTopMove,
