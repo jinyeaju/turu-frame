@@ -41,6 +41,8 @@ export default {
   methods: {
   },
   setup() {
+    const prevScroll = ref(null);
+    const scrollDirection = ref(null);
     const footerArea = ref(null)
     const mainPage = ref(null)
     const heightPercentage = ref(null)
@@ -76,18 +78,26 @@ export default {
     })
     
     const onScroll = (() => {
+      const currScroll = window.scrollY;
+      console.log("currScroll : " + currScroll)
+      console.log("prevScroll.value : " + prevScroll.value)
+      if (prevScroll.value > currScroll) {
+        scrollDirection.value = 'Up'; 
+      }
+      else {
+        scrollDirection.value = 'Down';
+      }
+      prevScroll.value = currScroll;
+      console.log(scrollDirection.value)
+
       if(setList.value.eventRoading === true){
-        // document.removeEventListener('wheel', onMouseWheel);
-        // event.stopImmediatePropagation();
         return;
       }
       // event.stopImmediatePropagation();
 
       // event chceck
       // console.log(event)
-
-      // console.log(setList.value.activePageIndex + 1)
-
+      
       setList.value.eventRoading = true;
       setTimeout(() => {
         setList.value.eventRoading = false;
@@ -101,49 +111,70 @@ export default {
       // timer.value = setTimeout(function() {
         
         // vh 단위 퍼센테이지 구하기
-        heightPercentage.value = window.scrollY / window.outerHeight * 100
-        console.log("window.scrollTop : "  + heightPercentage.value);
-        console.log("window.scrollY : "  + window.scrollY);
-        console.log("Last scrollY : "+LastScrollY.value);
-        // scroll direction(방향) 확인
-        const scrollDirection = window.scrollY > LastScrollY.value 
-        ? "Down" 
-        : window.scrollY < LastScrollY.value 
-        ? "Up" 
-        : "Scroll Error";
-        console.log("scrollDirection : "+scrollDirection);
-        // 현재의 스크롤 값을 저장
-        LastScrollY.value = window.scrollY;
+      heightPercentage.value = window.scrollY / window.outerHeight * 100
 
-
+      if(scrollDirection.value === "Down"){
+        if(setList.value.activePageIndex >= setList.value.emptyArr.length - 1){
+          // console.log(setList.value.emptyArr.length);
+          // console.log(setList.value.activePageIndex);
+          // if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
+            setList.value.activePageIndex = setList.value.emptyArr.length - 1
+            // setList.value.activePageIndex = setList.value.emptyArr.length - 1
+            // console.log(setList.value.emptyArr.length);
+            // console.log(setList.value.activePageIndex);
+          // }
+        }else{
+          setList.value.activePageIndex++;
+          console.log(setList.value.activePageIndex);
+        }
+      }else if(scrollDirection.value === "Up"){
+        if(setList.value.activePageIndex <= 0){
+          setList.value.activePageIndex = 0
+          console.log(setList.value.activePageIndex);
+        }else{
+          setList.value.activePageIndex--;
+          console.log(setList.value.activePageIndex);
+        }
+      }else{
+        console.log("scroll error")
+      }
+        
         // if(scrollDirection === "Down"){
-        //   if(setList.value.activePageIndex >= setList.value.emptyArr.length - 1){
-        //     // console.log(setList.value.emptyArr.length);
-        //     // console.log(setList.value.activePageIndex);
-        //     // if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
-        //       setList.value.activePageIndex = setList.value.emptyArr.length - 1
-        //       // setList.value.activePageIndex = setList.value.emptyArr.length - 1
-        //       // console.log(setList.value.emptyArr.length);
-        //       // console.log(setList.value.activePageIndex);
-        //     // }
-        //   }else{
-        //     setList.value.activePageIndex++;
-        //     console.log(setList.value.activePageIndex);
-        //   }
+        //   onScrollDown
         // }else if(scrollDirection === "Up"){
-        //   if(setList.value.activePageIndex <= 0){
-        //     setList.value.activePageIndex = 0
-        //     console.log(setList.value.activePageIndex);
-        //   }else{
-        //     setList.value.activePageIndex--;
-        //     console.log(setList.value.activePageIndex);
-        //   }
+        //   onScrollUp
         // }else{
         //   console.log("scroll error")
         // }
 
+
       // }, 150);
     });
+
+    // const onScrollDown = (() => {
+    //   if(setList.value.activePageIndex >= setList.value.emptyArr.length - 1){
+    //     // console.log(setList.value.emptyArr.length);
+    //     // console.log(setList.value.activePageIndex);
+    //     // if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
+    //       setList.value.activePageIndex = setList.value.emptyArr.length - 1
+    //       // setList.value.activePageIndex = setList.value.emptyArr.length - 1
+    //       // console.log(setList.value.emptyArr.length);
+    //       // console.log(setList.value.activePageIndex);
+    //     // }
+    //   }else{
+    //     setList.value.activePageIndex++;
+    //     console.log(setList.value.activePageIndex);
+    //   }
+    // });
+    // const onScrollUp = (() => {
+    //   if(setList.value.activePageIndex <= 0){
+    //     setList.value.activePageIndex = 0
+    //     console.log(setList.value.activePageIndex);
+    //   }else{
+    //     setList.value.activePageIndex--;
+    //     console.log(setList.value.activePageIndex);
+    //   }
+    // });
 
     const pageTopMove = computed(() => {
       if(setList.value.activePageIndex < 0){
@@ -194,6 +225,8 @@ export default {
     // });
 
     return {
+      prevScroll,
+      scrollDirection,
       footerArea,
       mainPage,
       timer,
