@@ -1,11 +1,11 @@
 <template>
   <HeaderArea />
   <div class="page" ref="mainPage">
-    <PageOne class="index-page-01 pageOne"/>
-    <PageTwo class="index-page-02 pageTwo"/>
-    <PageThree class="index-page-03 pageThree"/>
-    <PageFour class="index-page-04 pageFour"/>
-    <div class="footerArea">
+    <PageOne class="index-page-01 pageOne child"/>
+    <PageTwo class="index-page-02 pageTwo child"/>
+    <PageThree class="index-page-03 pageThree child"/>
+    <PageFour class="index-page-04 pageFour child"/>
+    <div class="footerArea child">
       <FooterArea class="index-page-05" ref="footerArea"/>
     </div>
   </div>
@@ -18,7 +18,7 @@ import PageTwo from './components/PageTwo.vue'
 import PageThree from './components/PageThree.vue'
 import PageFour from './components/PageFour.vue'
 import FooterArea from './components/FooterArea.vue'
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue'
 // import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 export default {
@@ -78,7 +78,7 @@ export default {
     })
     
     const onScroll = (() => {
-      const currScroll = window.scrollY;
+      const currScroll = document.documentElement.scrollTop;
       console.log("currScroll : " + currScroll)
       console.log("prevScroll.value : " + prevScroll.value)
       if (prevScroll.value > currScroll) {
@@ -90,18 +90,20 @@ export default {
       prevScroll.value = currScroll;
       console.log(scrollDirection.value)
 
-      if(setList.value.eventRoading === true){
-        return;
-      }
+      clearTimeout(timer.value)
+      timer.value = setTimeout(() => {
+        scrollDirection.value = 0
+      }, 100)
 
-      // event chceck
-      // console.log(event)
+      // if(setList.value.eventRoading === true){
+      //   return;
+      // }
       
-      setList.value.eventRoading = true;
-      setTimeout(() => {
-        setList.value.eventRoading = false;
-        // console.log("setList.value.eventRoading : "+setList.value.eventRoading)
-      }, 400);
+      // setList.value.eventRoading = true;
+      // setTimeout(() => {
+      //   setList.value.eventRoading = false;
+      //   // console.log("setList.value.eventRoading : "+setList.value.eventRoading)
+      // }, 400);
       // console.log("setList.value.eventRoading : "+setList.value.eventRoading)
 
       // if(timer.value !== null) {
@@ -110,73 +112,87 @@ export default {
       // timer.value = setTimeout(function() {
         
         // vh 단위 퍼센테이지 구하기
-      heightPercentage.value = window.scrollY / window.outerHeight * 100
+      // heightPercentage.value = window.scrollY / window.outerHeight * 100
 
-      if(scrollDirection.value === "Down"){
-        if(setList.value.activePageIndex >= setList.value.emptyArr.length - 1){
-          // console.log(setList.value.emptyArr.length);
-          // console.log(setList.value.activePageIndex);
-          // if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
-            setList.value.activePageIndex = setList.value.emptyArr.length - 1
-            // setList.value.activePageIndex = setList.value.emptyArr.length - 1
-            // console.log(setList.value.emptyArr.length);
-            // console.log(setList.value.activePageIndex);
-          // }
-        }else{
-          setList.value.activePageIndex++;
-          console.log(setList.value.activePageIndex);
-        }
-      }else if(scrollDirection.value === "Up"){
-        if(setList.value.activePageIndex <= 0){
-          setList.value.activePageIndex = 0
-          console.log(setList.value.activePageIndex);
-        }else{
-          setList.value.activePageIndex--;
-          console.log(setList.value.activePageIndex);
-        }
-      }else{
-        console.log("scroll error")
-      }
+      // if(scrollDirection.value === "Down"){
+      //   if(setList.value.activePageIndex >= setList.value.emptyArr.length - 1){
+      //     // console.log(setList.value.emptyArr.length);
+      //     // console.log(setList.value.activePageIndex);
+      //     // if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
+      //       setList.value.activePageIndex = setList.value.emptyArr.length - 1
+      //       // setList.value.activePageIndex = setList.value.emptyArr.length - 1
+      //       // console.log(setList.value.emptyArr.length);
+      //       // console.log(setList.value.activePageIndex);
+      //     // }
+      //   }else{
+      //     setList.value.activePageIndex++;
+      //     console.log(setList.value.activePageIndex);
+      //   }
+      // }else if(scrollDirection.value === "Up"){
+      //   if(setList.value.activePageIndex <= 0){
+      //     setList.value.activePageIndex = 0
+      //     console.log(setList.value.activePageIndex);
+      //   }else{
+      //     setList.value.activePageIndex--;
+      //     console.log(setList.value.activePageIndex);
+      //   }
+      // }else{
+      //   console.log("scroll error")
+      // }
       // const sTop = setList.value.emptyArr[setList.value.activePageIndex - 1]
       // console.log("sTop : " + sTop)
       // window.scrollTo({top: sTop, behavior:"smooth" })
-
-        // if(scrollDirection === "Down"){
-        //   onScrollDown
-        // }else if(scrollDirection === "Up"){
-        //   onScrollUp
-        // }else{
-        //   console.log("scroll error")
-        // }
-
-
+      
+      
+      
       // }, 150);
     });
+    watch(scrollDirection, (newScrolling) => {
+      if (newScrolling === 0) {
+        scrollEnd()
+      } else {
+        scrollStart()
+      }
+    })
+    
+    const scrollStart = (() => {
+      console.log("scroll start : "+ scrollDirection.value)
+      if(scrollDirection.value === "Down"){
+        onScrollDown()
+      }else if(scrollDirection.value === "Up"){
+        onScrollUp()
+      }else{
+        console.log("scroll error")
+      }
+    });
+    const scrollEnd = (() => {
+      console.log("scroll End")
+    });
 
-    // const onScrollDown = (() => {
-    //   if(setList.value.activePageIndex >= setList.value.emptyArr.length - 1){
-    //     // console.log(setList.value.emptyArr.length);
-    //     // console.log(setList.value.activePageIndex);
-    //     // if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
-    //       setList.value.activePageIndex = setList.value.emptyArr.length - 1
-    //       // setList.value.activePageIndex = setList.value.emptyArr.length - 1
-    //       // console.log(setList.value.emptyArr.length);
-    //       // console.log(setList.value.activePageIndex);
-    //     // }
-    //   }else{
-    //     setList.value.activePageIndex++;
-    //     console.log(setList.value.activePageIndex);
-    //   }
-    // });
-    // const onScrollUp = (() => {
-    //   if(setList.value.activePageIndex <= 0){
-    //     setList.value.activePageIndex = 0
-    //     console.log(setList.value.activePageIndex);
-    //   }else{
-    //     setList.value.activePageIndex--;
-    //     console.log(setList.value.activePageIndex);
-    //   }
-    // });
+      const onScrollDown = (() => {
+      if(setList.value.activePageIndex >= setList.value.emptyArr.length - 1){
+        // console.log(setList.value.emptyArr.length);
+        // console.log(setList.value.activePageIndex);
+        // if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
+          setList.value.activePageIndex = setList.value.emptyArr.length - 1
+          // setList.value.activePageIndex = setList.value.emptyArr.length - 1
+          // console.log(setList.value.emptyArr.length);
+          // console.log(setList.value.activePageIndex);
+        // }
+      }else{
+        setList.value.activePageIndex++;
+        console.log(setList.value.activePageIndex);
+      }
+    });
+    const onScrollUp = (() => {
+      if(setList.value.activePageIndex <= 0){
+        setList.value.activePageIndex = 0
+        console.log(setList.value.activePageIndex);
+      }else{
+        setList.value.activePageIndex--;
+        console.log(setList.value.activePageIndex);
+      }
+    });
     // window.scrollTo({top: setList.value.emptyArr[setList.value.activePageIndex - 1], behavior:"smooth" })
 
     const pageTopMove = computed(() => {
