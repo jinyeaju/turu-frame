@@ -1,15 +1,14 @@
 <template>
-  <HeaderArea :hPercent="heightPercentage"/>
+  <HeaderArea />
   <div class="page" ref="mainPage">
-    <PageOne class="index-page-01 pageOne" :hPercent="heightPercentage"/>
-    <PageTwo class="index-page-02 pageTwo" :hPercent="heightPercentage - 100"/>
-    <PageThree class="index-page-03 pageThree" :hPercent="heightPercentage - 200"/>
-    <PageFour class="index-page-04 pageFour" :hPercent="heightPercentage - 300"/>
+    <PageOne class="index-page-01 pageOne"/>
+    <PageTwo class="index-page-02 pageTwo"/>
+    <PageThree class="index-page-03 pageThree"/>
+    <PageFour class="index-page-04 pageFour"/>
     <div class="footerArea">
-      <FooterArea class="index-page-05" :hPercent="heightPercentage" ref="footerArea"/>
+      <FooterArea class="index-page-05" ref="footerArea"/>
     </div>
   </div>
-  
 </template>
 
 <script>
@@ -20,6 +19,7 @@ import PageThree from './components/PageThree.vue'
 import PageFour from './components/PageFour.vue'
 import FooterArea from './components/FooterArea.vue'
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+// import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 export default {
   name: 'App',
@@ -93,7 +93,6 @@ export default {
       if(setList.value.eventRoading === true){
         return;
       }
-      // event.stopImmediatePropagation();
 
       // event chceck
       // console.log(event)
@@ -138,7 +137,10 @@ export default {
       }else{
         console.log("scroll error")
       }
-        
+      // const sTop = setList.value.emptyArr[setList.value.activePageIndex - 1]
+      // console.log("sTop : " + sTop)
+      // window.scrollTo({top: sTop, behavior:"smooth" })
+
         // if(scrollDirection === "Down"){
         //   onScrollDown
         // }else if(scrollDirection === "Up"){
@@ -175,54 +177,16 @@ export default {
     //     console.log(setList.value.activePageIndex);
     //   }
     // });
+    // window.scrollTo({top: setList.value.emptyArr[setList.value.activePageIndex - 1], behavior:"smooth" })
 
     const pageTopMove = computed(() => {
       if(setList.value.activePageIndex < 0){
         return "0";
       }else{
-        // console.log((-100 * setList.value.activePageIndex) + "vh")
         return setList.value.activePageIndex == setList.value.emptyArr.length - 1 ? "calc(-300vh - 64px)" : (-100 * setList.value.activePageIndex) + "vh";
       }
     });
 
-    // const secondPageTopMove = computed(() => {
-    //   if(setList.value.activePageIndex >= 0){
-    //     // console.log(100 + (-100 * setList.value.activePageIndex) + "vh")
-    //     return 100 + (-100 * setList.value.activePageIndex) + "vh";
-    //   }else{
-    //     return "100vh";
-    //   }
-    // });
-
-    // const thirdPageTopMove = computed(() => {
-    //   if(setList.value.activePageIndex >= 0){
-    //     // console.log(200 + (-100 * setList.value.activePageIndex) + "vh")
-    //     return 200 + (-100 * setList.value.activePageIndex) + "vh";
-    //   }else{
-    //     return "200vh";
-    //   }
-    // });
-
-    // const fourthPageTopMove = computed(() => {
-    //   if(setList.value.activePageIndex >= 0){
-    //     console.log(300 + (-100 * setList.value.activePageIndex) + "vh")
-    //     if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
-    //       return "calc(0vh - 64px)"
-    //     }else{
-    //       return 300 + (-100 * setList.value.activePageIndex) + "vh";
-    //     }
-    //   }else{
-    //     return "300vh";
-    //   }
-    // });
-
-    // const footerTopMove = computed(() => {
-    //   if(setList.value.activePageIndex == setList.value.emptyArr.length - 1){
-    //     return "calc(100vh - 64px)"
-    //   }else{
-    //     return "100vh";
-    //   }
-    // });
 
     return {
       prevScroll,
@@ -234,10 +198,6 @@ export default {
       LastScrollY,
       setList,
       pageTopMove,
-      // secondPageTopMove,
-      // thirdPageTopMove,
-      // fourthPageTopMove,
-      // footerTopMove,
     }
   },
 } 
@@ -246,13 +206,15 @@ export default {
 <style lang="scss">
   @import "./assets/scss/main.scss";
   body {
-    height: 5000vh;
+    height: calc(500vh + 64px);
+    height: 1000vh;
   }
   .page {
     position: fixed;
     top: 0;
     left: 50%;
     transform: translate(-50%, v-bind('pageTopMove')); //translate(-50%, (0, -100vh, -200vh, ...))
+    // transform: translateX(-50%);
     transition: transform 0.3s ease-in;
     width: 100%;
     .index-page-01 {
